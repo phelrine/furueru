@@ -55,8 +55,8 @@ class FurueruApp < Sinatra::Base
   end
   
   post '/update' do
+    return "error" unless defined? params[:path] 
     current_user.update_profile_image params[:path]
-    redirect "/"
   end
 
   get '/logout' do

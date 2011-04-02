@@ -1,5 +1,4 @@
 require 'rubytter'
-require 'open-uri'
 
 module Model
   class User
