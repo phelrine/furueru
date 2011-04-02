@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="css/furueru.css" type="text/css" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/furueru.js"></script>
+    <title>Furueru</title>
+  </head>
+  <body>
+    <div id="container_all">
+      <div id="header">
+	<a href="."><h1 id="title-logo">Furueru</h1></a>
+      <% if current_user %>
+      <p id="login-menu"><%= current_user.screen_name%> でログイン中<br><a href="./logout">ログアウト</a>しますか?</p>
+      <% end %>
+      <div class="clear"></div>
+      </div>
+      <%= yield %>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+      ふるえる
+    </div>
+  </body>
+</html>

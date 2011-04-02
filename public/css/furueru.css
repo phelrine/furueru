@@ -1,0 +1,60 @@
+body {
+    background: white;
+}
+
+a {
+    color: gray;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+div#container_all {
+    width: 960px;
+    margin: auto;
+}
+
+div#main {
+    text-align: center;
+}
+
+div#footer {
+    margin-top: 100px;
+    text-align: center;
+}
+
+h1#title-logo {
+    color: black;
+    margin: 20px;
+    float: left;
+    text-shadow: gray 10px 8px 4px;
+}
+
+p#login-menu {
+    font-size: small;
+    text-align: right;
+    float: right;
+}
+
+#main table {
+    margin: auto;
+}
+
+img.icon {
+    width: 128px;
+}
+
+.result {
+    display: none;
+}
+
+p.result {
+    margin: 20px;
+}
+
+.clear {
+    clear: both;
+}
+
