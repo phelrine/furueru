@@ -1,5 +1,5 @@
 body {
-    background: white;
+    background: gray;
 }
 
 a {
@@ -12,45 +12,77 @@ a:hover {
 }
 
 div#container_all {
-    width: 960px;
     margin: auto;
+    width: 800px;
+    margin: auto;
+    padding: 1em;
 }
 
-div#main {
+div#header, div#footer, div.left, div.right {
+    background: white;
+    padding: 1em;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1em;
+    border-radius: 1em;
     text-align: center;
 }
 
-div#footer {
-    margin-top: 100px;
-    text-align: center;
+div#header {
+    text-align: left;
 }
 
-h1#title-logo {
-    color: black;
-    margin: 20px;
+div.left {
     float: left;
+    width: 60%;
+}
+
+div.right {
+    float: right;
+    width: 30%;
+}
+
+#main div.left, #main div.right {
+    height: 300px;
+}
+
+#title-logo {
+    margin-left: 1em;
+    float: left;
+}
+
+#title-logo h1, #title-logo description {
+    color: black;
     text-shadow: gray 10px 8px 4px;
 }
 
-p#login-menu {
+#login-menu {
+    background: gray;
     font-size: small;
     text-align: right;
+    padding: 0.5em;
     float: right;
+    border-radius: 1em;
 }
 
-#main table {
+#login-menu a{
+    color: white;
+}
+
+table {
     margin: auto;
 }
 
 img.icon {
     width: 128px;
+    border-radius: 16px;
 }
 
 .result {
     display: none;
 }
 
-p.result {
+p.result, form.result {
     margin: 20px;
 }
 

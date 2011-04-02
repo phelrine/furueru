@@ -24,10 +24,17 @@ window.furueru.index = {
 	       {'width': width, 'delay': delay},
 	       function(data){
 		   $('img.result')
-		       .attr('src', data.image);
-		   $('.result').show('slow');
-		   $('#decide').val($('img.result').attr('src'));
+		       .attr('src', data.image)
+		       .show('slow');
+		   $('p.result').show('slow');
+		   $('form.result').fadeIn('slow');
+		   $('#update-image-path').val($('img.result').attr('src'));
 	       });
+    },
+
+    updateImage: function(path){
+	$.post('update', {'path': path}, function(data){
+	});
     }
 };
 
@@ -42,6 +49,12 @@ window.furueru.dispatcher('/', function(){
     $('#guragura').click(function(){
 	window.furueru.index.getImage(4, 4);
     });
+    $('#update-image').click(function(){
+	console.log($('#update-image-path').val());
+	window.furueru.index.updateImage(
+	    $('#update-image-path').val()
+	);
+    })
 });
 
 $(function() {
