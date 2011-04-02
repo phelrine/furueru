@@ -44,5 +44,9 @@ module Model
         "http://localhost:9393/callback"
         )
     end
+
+    def self.oauth_sign(request, access_token)
+      self.consumer.sign!(request, access_token)
+    end
   end
 end

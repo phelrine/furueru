@@ -19,24 +19,24 @@ module Model
       }
       self.collection.update({:user_id => data[:user_id]}, data, {:upsert => true})
       user = self.find_by_user_id(data[:user_id])
-      open("public/#{user.image_path}", "wb"){|f|
-        f.write Model::Image.get_image(user.profile_image_url)
-      }
-      user
     end
     
     def initialize(data)
       @data = data.symbolize_keys
     end
 
-    def rubytter
-      @rubytter unless @rubytter
+    def get_access_token
+      @access_token unless @access_token
       @access_token = Model::TwitterOauth.access_token(
         Model::TwitterOauth.consumer,
         self.access_token,
         self.access_secret
         )
-      @rubytter = OAuthRubytter.new(@access_token)
+    end
+    
+    def rubytter
+      @rubytter unless @rubytter
+      @rubytter = OAuthRubytter.new(get_access_token)
     end
     
     def user_id
@@ -63,15 +63,56 @@ module Model
       self.profile[:profile_image_url]
     end
 
-    def image_path
-      "icon/#{self.user_id}-#{File.basename self.profile_image_url}"
-    end
-    
     def vibrate(width, delay)
-      Model::Image.vibrate(self.image_path, width, delay)
+      Model::Image.vibrate(self.profile_image_url, width, delay)
+    end
+
+    def mime_type(file)
+      case 
+      when file =~ /\.jpg/ then 'image/jpg'
+      when file =~ /\.gif$/ then 'image/gif'
+      when file =~ /\.png$/ then 'image/png'
+      else 'application/octet-stream'
+      end
+    end
+
+    def self.add_multipart_data(req, params)
+      crlf = "\r\n"
+      boundary = Time.now.to_i.to_s(16)
+      req["Content-Type"] = "multipart/form-data; boundary=#{boundary}"
+      body = ""
+      params.each{|key,value|
+        esc_key = CGI.escape(key.to_s)
+        body << "--#{boundary}#{crlf}"
+        if value.respond_to?(:read)
+          body << "Content-Disposition: form-data; name=\"#{esc_key}\"; filename=\"#{File.basename(value.path)}\"#{crlf}"
+          body << "Content-Type: #{mime_type(value.path)}#{crlf}#{crlf}"
+          body << value.read
+        else
+          body << "Content-Disposition: form-data; name=\"#{esc_key}\"#{crlf}#{crlf}#{value}"
+        end
+        body << crlf
+      }
+      body << "--#{boundary}--#{crlf}#{crlf}"
+      req.body = body
+      req["Content-Length"] = req.body.size
     end
 
     def update_profile_image(path)
+      src = "public/#{path}"
+      return unless File.exist? src
+      dist = "public/generate/#{self.screen_name}-#{Time.now.to_i}.gif"
+      File.rename(src, dist)
+      res = nil
+      icon = File.new dist
+      url = URI.parse "http://api.twitter.com/1/account/update_profile_image.json" 
+      Net::HTTP.new(url.host, url.port).start{|http|
+        req = Net::HTTP::Post.new(url.request_uri)
+        Model::User.add_multipart_data(req, :image => icon)
+        Model::TwitterOauth.oauth_sign(req, get_access_token)
+        res = http.request(req)
+      }
+      res.body
     end
   end
 end
