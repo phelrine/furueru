@@ -5,33 +5,47 @@ module Model
   class Image
     EXPIRED_TIME = 300
     
-    def self.get_image(url)
-      open(url).read
+    def self.get_image(url, dst)
+      Model::Cache.get_or_set("img-#{url}", EXPIRED_TIME){
+        unless File.exist? dst
+          File.open(dst, "wb"){|f|
+            f.write open(url).read
+          }
+          Model.logger.info("get image #{url}")
+        end
+        dst
+      }
     end
     
-    def self.vibrate(path, width, delay)
-      ext = File.extname path
-      base = File.basename path, ext
-      filename = "tmp/#{base}-w#{width}-d#{delay}.gif"
-      dist = "public/#{filename}"
-      if File.exist?(dist)
-        return filename if Time.now - File.mtime(dist) < EXPIRED_TIME
-      end
-      
-      src = "public/tmp/#{File.basename path}"
-      File.open(src, "wb"){|f|
-        f.write open(path).read
-      }
-      img = Magick::Image.read(src).first
+    def self.create_vibrate_image(width, delay, src, dst)
       gif = Magick::ImageList.new
+      img = Magick::Image.read(src).first.resize(48, 48)
       gif << img
       gif << img.roll(width, 0)
-      gif = gif.deconstruct
+      gif.iterations = 0
       gif.delay = delay
-      gif.coalesce
-      gif.write dist
+      gif = gif.deconstruct.coalesce
+      gif.write dst
+      Model.logger.info("create image #{dst}")
+    end      
+
+    def self.vibrate(path, width, delay)
+      ext = File.extname(path)
+      base = File.basename(path, ext)
+      filename = "tmp/#{base}-w#{width}-d#{delay}.gif"
+      dst = "public/#{filename}"
+      src = "public/tmp/#{File.basename path}"
+      
+      self.get_image(path, src) 
+      if File.exist? dst
+        Model::Cache.get_or_set("img-#{dst}", EXPIRED_TIME){
+          self.create_vibrate_image(width, delay, src, dst)
+        }
+      else
+        self.create_vibrate_image(width, delay, src, dst)
+        Model::Cache.force_set("img-#{dst}", dst, EXPIRED_TIME)
+      end
       filename
     end
-
   end
 end
