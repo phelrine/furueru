@@ -1,62 +1,24 @@
-<div id="main">
-  <div class="left">
-    <% unless current_user %>
-    <p>FurueruはTwitterのアイコンを簡単に震えさせることができるウェブサービスです.</p>
-    <p><a href="./oauth">ログイン</a>して震える.</p>
-    <% else %>
-    <p>震えかたを選んでください.</p>
-    <form>
-      ぷるぷる<input type="radio" id="purupuru" name="type" checked="false" />
-      ゆらゆら<input type="radio" id="yurayura" name="type" checked="false" />
-      ぐらぐら<input type="radio" id="guragura" name="type" checked="false" />
-    </form>
-    <table>
-      <tr>
-	<td><img class="icon" src="<%= current_user.profile_image_url %>"/></td> 
-	<td><p class="result">→</p></td>
-	<td><img class="result icon"/></td>
-      </tr>
-    </table>
-    <form action="#" class="result">
-      <input type="hidden" id="update-image-path" val="" />
-      <input type="submit" id="update-image" value="アイコンを変更する" />
-    </form>
-    <% end %>
-  </div>
-  <div class="right">
-    <script>
-      new TWTR.Widget({
-      version: 2,
-      type: 'search',
-      search: '#furueru',
-      interval: 6000,
-      title: '#furueru',
-      subject: '震える',
-      width: 240,
-      height: 200,
-      theme: {
-      shell: {
-      background: '#8ec1da',
-      color: '#ffffff'
-      },
-      tweets: {
-      background: '#ffffff',
-      color: '#444444',
-      links: '#1985b5'
-      }
-      },
-      features: {
-      scrollbar: false,
-      loop: true,
-      live: true,
-      hashtags: true,
-      timestamp: true,
-      avatars: true,
-      toptweets: true,
-      behavior: 'default'
-      }
-      }).render().start();
-    </script>
-  </div>
-  <div class="clear"></div>
-</div>
+<% unless current_user %>
+<p #>FurueruはTwitterのアイコンを簡単にふるえさせることができるウェブサービスです.</p>
+<p><a href="./oauth">ログイン</a>してふるえる.</p>
+<% else %>
+<p>ふるえかたを選んでください.</p>
+<form>
+  ぷるぷる<input type="radio" id="purupuru" name="type" checked="false" />
+  ゆらゆら<input type="radio" id="yurayura" name="type" checked="false" />
+  ぐらぐら<input type="radio" id="guragura" name="type" checked="false" />
+  <input type="hidden" id="image-token" name="token" value="<%= current_user.token %>" />
+</form>
+<table>
+  <tr>
+    <td><img class="icon" src="<%= h current_user.profile_image_url %>"/></td> 
+    <td><p class="result">→</p></td>
+    <td><img class="result icon"></td>
+  </tr>
+</table>
+<form method="post" action="update" class="result">
+  <input type="hidden" id="update-token" name="token" value="<%= current_user.token %>" />
+  <input type="hidden" id="update-image-path" name="path" value="" />
+  <input type="submit" id="update-image" value="ふるえるアイコンに変更する" />
+</form>
+<% end %>

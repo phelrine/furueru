@@ -11,16 +11,64 @@
       <div id="header">
 	<div id="title-logo">
 	  <a href="."><h1>Furueru</h1></a>
-	  <description id="subtitle">~~ふるえる~~</description>
+	  <description id="subtitle">~~ ふるえる ~~</description>
 	</div>
 	<% if current_user %>
-	<p id="login-menu"><%= current_user.screen_name%> でログイン中<br><a href="./logout">ログアウト</a>しますか?</p>
+	<p id="login-menu"><%= h current_user.screen_name%> でログイン中<br><a href="./logout">ログアウト</a></p>
 	<% end %>
 	<div class="clear"></div>
       </div>
-      <%= yield %>
+      <div id="main">
+	<div class="left">
+	  <%= yield %>
+	</div>
+	<div class="right">
+	  <script>
+	    new TWTR.Widget({
+	    version: 2,
+	    type: 'search',
+	    search: '#furueru',
+	    interval: 6000,
+	    title: '#furueru',
+	    subject: 'ふるえる',
+	    width: 240,
+	    height: 200,
+	    theme: {
+	    shell: {
+	    background: '#8ec1da',
+	    color: '#ffffff'
+	    },
+	    tweets: {
+	    background: '#ffffff',
+	    color: '#444444',
+	    links: '#1985b5'
+	    }
+	    },
+	    features: {
+	    scrollbar: false,
+	    loop: true,
+	    live: true,
+	    hashtags: true,
+	    timestamp: true,
+	    avatars: true,
+	    toptweets: true,
+	    behavior: 'default'
+	    }
+	    }).render().start();
+	  </script>
+	</div>
+	<div class="clear"></div>
+      </div>
+      <div id="garally">
+	<h2>ギャラリー</h2>
+	<% Model::History.history(22).each do |hist| %>
+	<img src="<%=h hist.icon_image %>" 
+	     alt="<%=h hist.screen_name %>" 
+	     title="<%=h hist.screen_name %>"/>
+	<% end %>
+      </div>
       <div id="footer">
-	<p>Furueru (ふるえる)</p>
+	<p>Furueru ~~ ふるえる ~~ (<a href="http://twitter.com/#!/phelrine">@phelrine</a>)</p>
       </div>
     </div>
   </body>

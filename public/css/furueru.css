@@ -1,5 +1,5 @@
 body {
-    background: gray;
+    background: #888888;
 }
 
 a {
@@ -18,7 +18,7 @@ div#container_all {
     padding: 1em;
 }
 
-div#header, div#footer, div.left, div.right {
+div#header, div#footer, div#garally, div.left, div.right {
     background: white;
     padding: 1em;
     margin-left: auto;
@@ -28,7 +28,7 @@ div#header, div#footer, div.left, div.right {
     text-align: center;
 }
 
-div#header {
+div#header, div#garally {
     text-align: left;
 }
 
@@ -52,30 +52,36 @@ div.right {
 }
 
 #title-logo h1, #title-logo description {
+    margin-top: 0em;
     color: black;
     text-shadow: gray 10px 8px 4px;
 }
 
 #login-menu {
-    background: gray;
     font-size: small;
     text-align: right;
     padding: 0.5em;
+    margin-top: 0px;
     float: right;
     border-radius: 1em;
-}
-
-#login-menu a{
-    color: white;
 }
 
 table {
     margin: auto;
 }
 
-img.icon {
-    width: 128px;
+#main img.icon {
     border-radius: 16px;
+    width: 128px;
+}
+
+#garally h2 {
+    margin-top: 0em;
+    margin-buttom: 1em;
+}
+#garally img {
+    border-radius: 0.5em;
+    width: 64px;
 }
 
 .result {
@@ -90,3 +96,6 @@ p.result, form.result {
     clear: both;
 }
 
+#footer {
+    font-size: small;
+}
