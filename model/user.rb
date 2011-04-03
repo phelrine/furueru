@@ -19,7 +19,7 @@ module Model
       self.collection.update({:user_id => data[:user_id]}, data, {:upsert => true})
       user = self.find_by_user_id(data[:user_id])
     end
-    
+
     def initialize(data)
       @data = data.symbolize_keys
     end
@@ -33,9 +33,18 @@ module Model
         )
     end
     
+    def key 
+      @data[:_id].to_s
+    end
+    
+    def token
+      Digest::SHA1.hexdigest(self.key + "change")
+    end
+
     def rubytter
-      @rubytter unless @rubytter
-      @rubytter = OAuthRubytter.new(get_access_token)
+      unless @rubytter
+        @rubytter = OAuthRubytter.new(get_access_token)
+      end
     end
     
     def user_id
@@ -57,7 +66,7 @@ module Model
     def profile
       self.rubytter.user(self.screen_name).to_hash
     end
-
+    
     def profile_image_url
       self.profile[:profile_image_url]
     end
@@ -99,11 +108,12 @@ module Model
 
     def update_profile_image(path)
       src = "public/#{path}"
-      return unless File.exist? src
-      dist = "public/generate/#{self.screen_name}-#{Time.now.to_i}.gif"
-      File.rename(src, dist)
+      raise "File Not Found" unless File.exist? src
+      hist = "history/#{self.user_id}-#{Time.now.to_i}.gif"
+      dst = "public/#{hist}"
+      File.rename(src, dst)
       res = nil
-      icon = File.new dist
+      icon = File.new dst
       url = URI.parse "http://api.twitter.com/1/account/update_profile_image.json" 
       Net::HTTP.new(url.host, url.port).start{|http|
         req = Net::HTTP::Post.new(url.request_uri)
@@ -111,7 +121,17 @@ module Model
         Model::TwitterOauth.oauth_sign(req, get_access_token)
         res = http.request(req)
       }
-      res.body
+      Model.logger.info "updated profile image"
+      
+      body = JSON::Parser.new(res.body).parse
+      raise body['error'] unless res.code == "200"
+
+      Model::History.new_history({
+          :user_id => self.user_id,
+          :screen_name => self.screen_name,
+          :icon_image => hist,
+        })
+      body
     end
   end
 end
