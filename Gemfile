@@ -7,5 +7,5 @@ gem 'bson_ext'
 gem 'oauth'
 gem 'rubytter'
 gem 'rmagick'
-# gem 'dalli'
+gem 'dalli'
 
