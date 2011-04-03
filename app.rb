@@ -2,9 +2,12 @@ require 'sinatra'
 require 'bundler/setup'
 require 'erb'
 require 'model'
+require 'logger'
 
 class FurueruApp < Sinatra::Base
   set :root, File.dirname(__FILE__)
+  set :show_exceptions, false
+  set :logging, true
   use Rack::Session::Cookie, :secret => Model::TwitterOauth::CONSUMER_KEY
   
   helpers do
@@ -29,7 +32,13 @@ class FurueruApp < Sinatra::Base
       @current_user = Model::User.find_by_user_id(session[:user_id])
     end
   end
-  
+
+  error do
+    status 500
+    Model.logger.warn request.env['sinatra.error'].message
+    'sorry... '
+  end
+
   get '/' do
     erb :index
   end
