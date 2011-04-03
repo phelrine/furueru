@@ -11,6 +11,10 @@ a:hover {
     text-decoration: underline;
 }
 
+table {
+    margin: auto;
+}
+
 div#container_all {
     margin: auto;
     width: 800px;
@@ -18,7 +22,7 @@ div#container_all {
     padding: 1em;
 }
 
-div#header, div#footer, div#garally, div.left, div.right {
+div#header, div#garally, div.left, div.right {
     background: white;
     padding: 1em;
     margin-left: auto;
@@ -66,13 +70,13 @@ div.right {
     border-radius: 1em;
 }
 
-table {
-    margin: auto;
-}
-
 #main img.icon {
     border-radius: 16px;
     width: 128px;
+}
+
+#main p.help {
+    text-align: left;
 }
 
 #garally h2 {
@@ -96,6 +100,9 @@ p.result, form.result {
     clear: both;
 }
 
-#footer {
+p#footer {
+    background: white;
+    text-align: center;
     font-size: small;
+    border-radius: 1em;
 }
