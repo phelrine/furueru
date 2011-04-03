@@ -19,22 +19,28 @@ window.furueru.dispatcher = function(guard, func) {
 };
 
 window.furueru.index = {
-    getImage: function(width, delay){
-	$.post('furueru', 
-	       {'width': width, 'delay': delay},
-	       function(data){
-		   $('img.result')
-		       .attr('src', data.image)
-		       .show('slow');
-		   $('p.result').show('slow');
-		   $('form.result').fadeIn('slow');
-		   $('#update-image-path').val($('img.result').attr('src'));
-	       });
+    hideResult: function(){
+	$('img.result').hide('slow');
+	$('#update-image').attr('disabled', true);
+	$('input[type=radio]').attr('disabled', true);
     },
-
-    updateImage: function(path){
-	$.post('update', {'path': path}, function(data){
-	});
+    showResult: function(){
+	$('img.result').show('slow');
+	$('p.result').show('slow');
+	$('form.result').fadeIn('slow');
+	$('#update-image').attr('disabled', false);
+	$('input[type=radio]').attr('disabled', false);
+    },
+    getImage: function(width, delay){
+	var self = this;
+	self.hideResult();
+	$.post('furueru', 
+	       {'width': width, 'delay': delay, 'token': $('#image-token').val()},
+	       function(data){
+		   $('img.result').attr('src', data.image);
+		   $('#update-image-path').val($('img.result').attr('src'));
+		   self.showResult();
+	       });
     }
 };
 
@@ -49,12 +55,6 @@ window.furueru.dispatcher('/', function(){
     $('#guragura').click(function(){
 	window.furueru.index.getImage(4, 4);
     });
-    $('#update-image').click(function(){
-	console.log($('#update-image-path').val());
-	window.furueru.index.updateImage(
-	    $('#update-image-path').val()
-	);
-    })
 });
 
 $(function() {

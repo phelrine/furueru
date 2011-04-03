@@ -8,6 +8,21 @@ class FurueruApp < Sinatra::Base
   use Rack::Session::Cookie, :secret => Model::TwitterOauth::CONSUMER_KEY
   
   helpers do
+    alias_method :h, :escape_html
+
+    def uri_encode(str)
+      URI.encode str
+    end
+
+    def require_token
+      params[:token] or halt 400, 'token required'
+      params[:token] == current_user.token or halt 400, 'token not match'
+    end
+
+    def require_user 
+      current_user or redirect '/'
+    end
+
     def current_user
       @current_user if defined? @current_user
       return unless session[:user_id]
@@ -48,15 +63,25 @@ class FurueruApp < Sinatra::Base
   end
 
   post '/furueru' do
+    require_user
+    require_token
     data = {}
     data[:image] = current_user.vibrate(params[:width].to_i, params[:delay].to_i)
     content_type :json
     JSON.unparse(data)
   end
   
+  get '/updated' do
+    require_user
+    erb :update
+  end
+
   post '/update' do
+    require_user
+    require_token
     return "error" unless defined? params[:path] 
     current_user.update_profile_image params[:path]
+    redirect "/updated"
   end
 
   get '/logout' do
