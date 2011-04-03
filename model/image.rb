@@ -19,7 +19,9 @@ module Model
     
     def self.create_vibrate_image(width, delay, src, dst)
       gif = Magick::ImageList.new
-      img = Magick::Image.read(src).first.resize(48, 48)
+      img = Magick::Image.read(src){|i| 
+        i.format = File.extname(src).gsub(".", "")
+      }.first.resize(48, 48)
       gif << img
       gif << img.roll(width, 0)
       gif.iterations = 0
