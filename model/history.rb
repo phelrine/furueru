@@ -20,11 +20,11 @@ module Model
     end
     
     def self.unique_user
-      self.collection.find({}, {:sort => [:date, :desc]}).to_a.map{|hist|
+      @@unique_user ||= self.collection.find({}, {:sort => [:date, :desc]}).to_a.map{|hist|
         self.new(hist)
       }.uniq
     end
-
+    
     def self.recent_user(count)
       Model::Cache.get_or_set("unique_user-#{count}", 300){
         self.unique_user[0, count]
@@ -32,11 +32,11 @@ module Model
     end
     
     def hash
-      self.screen_name.hash
+      self.user_id.hash
     end
 
     def eql?(comp)
-      self.screen_name.hash == comp.screen_name.hash
+      self.hash == comp.hash
     end
     
     def initialize(data)
