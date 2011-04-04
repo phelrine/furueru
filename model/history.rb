@@ -26,7 +26,7 @@ module Model
     end
 
     def self.recent_user(count)
-      Model::Cache.get_or_set("unique_user-#{count}"){
+      Model::Cache.get_or_set("unique_user-#{count}", 300){
         self.unique_user[0, count]
       }
     end
