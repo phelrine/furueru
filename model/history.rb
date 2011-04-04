@@ -25,10 +25,8 @@ module Model
       }.uniq
     end
     
-    def self.recent_user(count)
-      Model::Cache.get_or_set("unique_user-#{count}", 300){
-        self.unique_user[0, count]
-      }
+    def self.recent_user(count=50)
+      self.unique_user[0, count]        
     end
     
     def hash

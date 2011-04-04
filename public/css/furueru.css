@@ -79,13 +79,15 @@ div.right {
     text-align: left;
 }
 
-#garally h2 {
+#garally h2, #garally p {
     margin-top: 0em;
-    margin-buttom: 1em;
+    margin-bottom: 0.5em
 }
+
 #garally img {
     border-radius: 0.5em;
     width: 64px;
+    height: 64px;
 }
 
 .result {
