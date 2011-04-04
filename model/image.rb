@@ -29,10 +29,10 @@ module Model
       Model.logger.info("create image #{dst}")
     end      
 
-    def self.vibrate(path, width, delay)
+    def self.vibrate(path, prefix, width, delay)
       ext = File.extname(path)
       base = File.basename(path, ext)
-      filename = "tmp/#{base}-w#{width}-d#{delay}.gif"
+      filename = "tmp/#{prefix}-#{base}-w#{width}-d#{delay}.gif"
       dst = "public/#{filename}"
       src = "public/tmp/#{File.basename path}"
       
