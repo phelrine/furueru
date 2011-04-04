@@ -19,10 +19,22 @@ module Model
       Model.logger.info "create history"
     end
     
-    def self.history(count = 50)
-      self.collection.find({}, {:sort => [:date, :desc]}).limit(count).to_a.map{|hist|
+    def self.unique_user
+      self.collection.find({}, {:sort => [:date, :desc]}).to_a.map{|hist|
         self.new(hist)
-      }
+      }.uniq
+    end
+
+    def self.recent_user(count)
+      self.unique_user[0, count]
+    end
+    
+    def hash
+      self.screen_name.hash
+    end
+
+    def eql?(comp)
+      self.screen_name.hash == comp.screen_name.hash
     end
     
     def initialize(data)

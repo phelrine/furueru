@@ -61,7 +61,7 @@
       </div>
       <div id="garally">
 	<h2>ギャラリー</h2>
-	<% Model::History.history(22).each do |hist| %>
+	<% Model::History.recent_user(22).each do |hist| %>
 	<img src="<%=h hist.icon_image %>" 
 	     alt="<%=h hist.screen_name %>" 
 	     title="<%=h hist.screen_name %>"/>
