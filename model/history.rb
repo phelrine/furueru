@@ -26,7 +26,9 @@ module Model
     end
 
     def self.recent_user(count)
-      self.unique_user[0, count]
+      Model::Cache.get_or_set("unique_user-#{count}"){
+        self.unique_user[0, count]
+      }
     end
     
     def hash
