@@ -75,7 +75,8 @@ module Model
       Model::Image.vibrate(
         self.profile_image_url, 
         self.user_id,
-        width, delay)
+        width, 
+        delay)
     end
 
     def mime_type(file)
