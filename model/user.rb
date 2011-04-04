@@ -112,7 +112,7 @@ module Model
     def update_profile_image(path)
       src = "public/#{path}"
       raise "File Not Found" unless File.exist? src
-      hist = "history/#{self.user_id}-#{Time.now.to_i}.gif"
+      hist = "history/#{self.screen_name}-#{Time.now.to_i}.gif"
       dst = "public/#{hist}"
       File.rename(src, dst)
       res = nil
