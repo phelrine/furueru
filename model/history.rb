@@ -20,9 +20,11 @@ module Model
     end
     
     def self.unique_user
-      @@unique_user ||= self.collection.find({}, {:sort => [:date, :desc]}).to_a.map{|hist|
-        self.new(hist)
-      }.uniq
+      Model::Cache.get_or_set("unique-user", 300){
+        self.collection.find({}, {:sort => [:date, :desc]}).to_a.map{|hist|
+          self.new(hist)
+        }.uniq
+      }
     end
     
     def self.recent_user(count=50)
