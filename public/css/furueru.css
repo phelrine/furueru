@@ -84,6 +84,10 @@ div.right {
     margin-bottom: 0.5em
 }
 
+#garally a {
+    color: white;
+}
+
 #garally img {
     border-radius: 0.5em;
     width: 64px;

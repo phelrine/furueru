@@ -63,9 +63,11 @@
 	<h2>ギャラリー</h2>
 	<p>現在 <strong><%=h Model::History.unique_user.length %></strong> 人のユーザーがふるえています</p>
 	<% Model::History.recent_user(22).each do |hist| %>
-	<img src="<%=h hist.icon_image %>" 
-	     alt="<%=h hist.screen_name %>" 
-	     title="<%=h hist.screen_name %>"/>
+	<a href="http://twitter.com/#!/<%=h hist.screen_name %>">
+	  <img src="<%=h hist.icon_image %>" 
+	       alt="<%=h hist.screen_name %>" 
+	       title="<%=h hist.screen_name %>"/>
+	</a>
 	<% end %>
       </div>
       <p id="footer">Furueru ~~ ふるえる ~~ (<a href="http://twitter.com/#!/phelrine">@phelrine</a>)</p>
