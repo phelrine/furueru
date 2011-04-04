@@ -33,7 +33,7 @@ module Model
       src = "public/tmp/#{prefix}-#{File.basename path}"
     
       if File.exist? dst
-        Model.Cache.get_or_set("get-image-#{dst}", EXPIRED_TIME){
+        Model::Cache.get_or_set("get-image-#{dst}", EXPIRED_TIME){
           self.get_image(path, src) 
         }
       else
