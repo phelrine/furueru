@@ -82,6 +82,14 @@ class FurueruApp < Sinatra::Base
   
   get '/updated' do
     require_user
+    @updated_image = Model::History.unique_user.each{|u|
+      if u.user_id == current_user.user_id
+        break u.icon_image 
+      end
+      nil
+    }
+    
+    raise unless @updated_image
     erb :update
   end
 
