@@ -60,3 +60,13 @@ window.furueru.dispatcher('/', function(){
 $(function() {
     window.furueru.dispatcher();
 });
+
+$(document).ready(function(){
+    $('#adsense').jrumble({
+	rangeX: 3,
+	rangeY: 0,
+	rangeRot: 0,
+	rumbleSpeed: 30,
+	rumbleEvent: 'constant'
+    });
+});
