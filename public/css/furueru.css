@@ -22,6 +22,14 @@ div#container_all {
     padding: 1em;
 }
 
+div#adsense {
+    background: white;
+    margin-bottom: 1em;
+    padding: 0.5em;
+    text-align: center;
+    border-radius: 1em;
+}
+
 div#header, div#garally, div.left, div.right {
     background: white;
     padding: 1em;
