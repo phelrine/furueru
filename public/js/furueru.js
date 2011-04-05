@@ -63,8 +63,8 @@ $(function() {
 
 $(document).ready(function(){
     $('#adsense').jrumble({
-	rangeX: 3,
-	rangeY: 0,
+	rangeX: 0,
+	rangeY: 3,
 	rangeRot: 0,
 	rumbleSpeed: 30,
 	rumbleEvent: 'constant'
