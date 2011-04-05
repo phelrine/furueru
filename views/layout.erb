@@ -4,14 +4,14 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
     <script src="http://widgets.twimg.com/j/2/widget.js"></script>
     <script type="text/javascript" src="js/furueru.js"></script>
-    <title>Furueru</title>
+    <title>Tateyure</title>
   </head>
   <body>
     <div id="container_all">
       <div id="header">
 	<div id="title-logo">
-	  <a href="."><h1>Furueru</h1></a>
-	  <description id="subtitle">~~ ふるえる ~~</description>
+	  <a href="."><h1>Tateyure</h1></a>
+	  <description id="subtitle">~~ たてゆれ ~~</description>
 	</div>
 	<% if current_user %>
 	<p id="login-menu"><%= h current_user.screen_name%> でログイン中<br><a href="./logout">ログアウト</a></p>
@@ -27,10 +27,10 @@
 	    new TWTR.Widget({
 	    version: 2,
 	    type: 'search',
-	    search: '#furueru',
+	    search: '#tateyure',
 	    interval: 6000,
-	    title: '#furueru',
-	    subject: 'ふるえる',
+	    title: '#tateyure',
+	    subject: 'たてゆれ',
 	    width: 240,
 	    height: 200,
 	    theme: {
@@ -70,7 +70,7 @@
 	</a>
 	<% end %>
       </div>
-      <p id="footer">Furueru ~~ ふるえる ~~ (<a href="http://twitter.com/#!/phelrine">@phelrine</a>)</p>
+      <p id="footer">Tateyure ~~ たてゆれ ~~ (<a href="http://twitter.com/#!/phelrine">@phelrine</a>)</p>
     </div>
   </body>
 </html>

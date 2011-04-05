@@ -17,7 +17,7 @@ module Model
       gif = Magick::ImageList.new
       img = Magick::Image.read(src).first.resize(48, 48)
       gif << img
-      gif << img.roll(width, 0)
+      gif << img.roll(0, width)
       gif.iterations = 0
       gif.delay = delay
       gif = gif.deconstruct.coalesce

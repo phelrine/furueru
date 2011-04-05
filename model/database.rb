@@ -4,7 +4,7 @@ require 'bson'
 module Model
   module Database
     def self.db
-      @db ||= ::Mongo::Connection.new.db('furueru')
+      @db ||= ::Mongo::Connection.new.db('tateyure')
     end
 
     def self.collection(name)
