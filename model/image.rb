@@ -33,21 +33,21 @@ module Model
       src = "public/tmp/#{prefix}-#{File.basename path}"
     
       if File.exist? dst
-        Model::Cache.get_or_set("get-image-#{dst}", EXPIRED_TIME){
+        Model::Cache.get_or_set("get-image-#{dst}-tateyure", EXPIRED_TIME){
           self.get_image(path, src) 
         }
       else
         self.get_image(path, src) 
-        Model::Cache.force_set("get-image-#{dst}", dst, EXPIRED_TIME)
+        Model::Cache.force_set("get-image-#{dst}-tateyure", dst, EXPIRED_TIME)
       end
       
       if File.exist? dst
-        Model::Cache.get_or_set("img-#{dst}", EXPIRED_TIME){
+        Model::Cache.get_or_set("img-#{dst}-tateyure", EXPIRED_TIME){
           self.create_vibrate_image(width, delay, src, dst)
         }
       else
         self.create_vibrate_image(width, delay, src, dst)
-        Model::Cache.force_set("img-#{dst}", dst, EXPIRED_TIME)
+        Model::Cache.force_set("img-#{dst}-tateyure", dst, EXPIRED_TIME)
       end
       filename
     end
