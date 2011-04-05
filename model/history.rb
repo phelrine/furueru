@@ -20,7 +20,7 @@ module Model
     end
     
     def self.unique_user
-      Model::Cache.get_or_set("unique-user", 300){
+      Model::Cache.get_or_set("unique-user-tateyure", 300){
         self.collection.find({}, {:sort => [:date, :desc]}).to_a.map{|hist|
           self.new(hist)
         }.uniq
