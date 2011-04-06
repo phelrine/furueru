@@ -29,11 +29,15 @@ class FurueruApp < Sinatra::Base
   end
 
   post '/' do
-    raise "Capacity Over" if request.content_length.to_i > 1024 * 30
-    raise "File is Empty" if params.empty?
+    Model.logger.info "file size: #{request.content_length}"
+    halt 500, "Capacity Over" if request.content_length.to_i > 1024 * 30
+    halt 500, "File is Empty" if params.empty? || params[:upfile].empty?
     file = params[:upfile]
     type = file[:type]
-    raise "Unsupport File" unless ["png","gif","jpg"].map{|s| "image/".concat(s)}.include? type
+    Model.logger.info "file type: #{type}"
+    halt 500, "Unsupport File" unless ["png", "x-png", "gif", "jpeg", "pjpeg"].map{|s| 
+      "image/".concat(s)
+    }.include? type
     dst = Model::Image.save_file(file[:tempfile], File.basename(file[:filename]))
     JSON.unparse({
         :filename => dst,
@@ -55,7 +59,8 @@ class FurueruApp < Sinatra::Base
   post '/download' do
     src = "public/#{params[:src]}"
     dst = "public/history/#{File.basename params[:src]}"
-    File.cp src, dst
+    FileUtils.cp src, dst
+    Model.logger.info "copy file #{src} to #{dst}"    
     content_type :gif
     send_file dst
   end
