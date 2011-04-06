@@ -21,7 +21,7 @@ class FurueruApp < Sinatra::Base
   error do
     status 500
     Model.logger.warn request.env['sinatra.error'].message
-    'sorry... '
+    'error...'
   end
 
   get '/' do
@@ -29,9 +29,11 @@ class FurueruApp < Sinatra::Base
   end
 
   post '/' do
-    raise if request.content_length.to_i > 1024 * 10
-    raise if params.empty?
+    raise "Capacity Over" if request.content_length.to_i > 1024 * 30
+    raise "File is Empty" if params.empty?
     file = params[:upfile]
+    type = file[:type]
+    raise "Unsupport File" unless ["png","gif","jpg"].map{|s| "image/".concat(s)}.include? type
     dst = Model::Image.save_file(file[:tempfile], File.basename(file[:filename]))
     JSON.unparse({
         :filename => dst,
@@ -50,7 +52,7 @@ class FurueruApp < Sinatra::Base
     JSON.unparse(data)
   end
   
-  post '/get_icon' do
+  post '/download' do
     src = "public/#{params[:src]}"
     dst = "public/history/#{File.basename params[:src]}"
     File.rename src, dst

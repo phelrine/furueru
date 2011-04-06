@@ -20,13 +20,13 @@ window.furueru.dispatcher = function(guard, func) {
 
 window.furueru.index = {
     hideResult: function(){
+	$('#download').hide();
 	$('.result').hide('slow');
 	$('input[type=radio]').attr('disabled', true);
-	$('#download').attr('disabled', true);
     },
     showResult: function(){
 	$('.result').show('slow');
-	$('#download').attr('disabled', false);
+	$('#download').fadeIn('slow');
 	$('input[type=radio]').attr('disabled', false);
     },
     vibrateImage: function(width, delay){
@@ -39,10 +39,14 @@ window.furueru.index = {
 	       },
 	       function(data){
 		   $('img.result').attr('src', data.image);
+		   $('a#download').attr('href', data.image);
 		   $('#result-file').val(data.image);
 		   self.showResult();
 	       });
     },
+    downloadImage: function(){
+	$.post('download', {'src': $('img.result').attr("src")});
+    }
 };
 
 window.furueru.dispatcher('/', function(){
@@ -60,13 +64,22 @@ window.furueru.dispatcher('/', function(){
 	window.furueru.index.downloadImage();
     });
     $('#upload-form').ajaxForm({
-	success: function(data, res){
-	    console.log(data);
-	    console.log(data.filename);
+	beforeSubmit: function(formData, jqForm, options){
+	    var form = $('input[type=file]').get(0);
+	    if(!form.files[0]){
+		alert('ファイルが指定されていません.');
+		return false;
+	    }else if(form.files[0].fileSize > 1024 * 30){
+		alert('ファイルのサイズが大きすぎます.');
+		return false;
+	    }
+	    return true;
+	},
+	success: function(res, status){
 	    $('#garally').hide();
 	    $('#step2').fadeIn('slow');
 	    $("#preview-image")
-		.attr('src', data['filename'])
+		.attr('src', res.filename)
 		.fadeIn('slow');
 	    return false;
 	},

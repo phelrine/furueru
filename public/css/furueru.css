@@ -38,11 +38,11 @@ div#header, div#garally, div#left, div#right {
     border-radius: 1em;
 }
 
-div#intro, div#step1, div#step2 { 
+div#step1, div#step2 { 
     text-align: center; 
 }
 
-div#header, div#garally { 
+div#intro, div#header, div#garally { 
     text-align: left; 
 }
 
@@ -71,55 +71,52 @@ div#right {
     text-shadow: gray 10px 8px 4px;
 }
 
-#main img.icon 
-{
+#main img.icon {
     border-radius: 16px;
     width: 128px;
 }
 
-#main p.help 
-{
+#main p.help {
     text-align: left;
 }
 
-#garally h2, #garally p 
-{
+#garally h2, #garally p {
     margin-top: 0em;
     margin-bottom: 0.5em
 }
 
-#garally a 
-{
+#garally a {
     color: white;
 }
 
-#garally img 
-{
+#garally img {
     border-radius: 0.5em;
     width: 64px;
     height: 64px;
 }
 
-.hide 
-{
+.hide {
     display: none;
 }
 
 .result { display: none; }
+
 p.result, form.result 
 {
     margin: 20px;
 }
 
-.clear 
-{
+.clear {
     clear: both;
 }
 
-p#footer 
-{
+p#footer {
     background: white;
     text-align: center;
     font-size: small;
     border-radius: 1em;
+}
+
+p.caution {
+    font-size: small;
 }

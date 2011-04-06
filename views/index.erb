@@ -1,13 +1,16 @@
 <div id="left">
   <div id="intro">
     <p class="help">Furueruはふるえるアイコンを作成するサービスです.</p>
+    <p>お気に入りのアイコンをふるわせてみませんか?</p>
   </div>
+  <br />
   <div id="step1">
     <p>ふるえさせたい画像をアップロードしてください.</p>
     <form id="upload-form" action="/" method="post" enctype="multipart/form-data">
       <input type="file" name="upfile" id="upload-image" /><br />
       <input type="submit" value="アップロード" /> 
     </form>
+    <p class="caution">png・jpg・gifの画像をアップロードすることができます.<br />最大30KBのファイルをアップロードできます.</p>
   </div>
 </div>
 <div id="right">
@@ -31,9 +34,6 @@
       ゆらゆら<input type="radio" id="yurayura" name="type" checked="false" />
       ぐらぐら<input type="radio" id="guragura" name="type" checked="false" />
     </form>
-    <form method="post" id="download" action="/get_icon">
-      <input type="hidden" id="result-file" name="src">
-      <input type="submit" class="result" value="ふるえるアイコンをダウンロードする" />      
-    </form>
+    <a id="download" target="_blank">ふるえるアイコンをダウンロードする</a>
   </div>
 </div>
