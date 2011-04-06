@@ -6,7 +6,9 @@ module Model
     EXPIRED_TIME = 300
     
     def self.save_file(file, name)
-      Model::Cache.get_or_set("upload-file-#{name}", 300){
+      encode = name.crypt("change-me")
+      Model::Cache.get_or_set("upload-file-#{encode}", 300){
+        Model.logger.info "upload file: #{name}"
         filename = "tmp/#{Time.now.to_i}-#{name}" 
         dst = "public/#{filename}"
         open(dst, "wb"){|f| 
@@ -31,17 +33,18 @@ module Model
     def self.vibrate(path, width, delay)
       ext = File.extname(path)
       base = File.basename(path, ext)
-      p filename = "/tmp/#{base}-w#{width}-d#{delay}.gif"
-      p src = "public/#{path}"
-      p dst = "public/#{filename}"
+      filename = "/tmp/#{base}-w#{width}-d#{delay}.gif"
+      src = "public/#{path}"
+      dst = "public/#{filename}"
+      encode = path.crypt("change-me")
       
       if File.exist? dst
-        Model::Cache.get_or_set("img-#{dst}", EXPIRED_TIME){
+        Model::Cache.get_or_set("img-#{encode}", EXPIRED_TIME){
           self.create_vibrate_image(width, delay, src, dst)
         }
       else
         self.create_vibrate_image(width, delay, src, dst)
-        Model::Cache.force_set("img-#{dst}", dst, EXPIRED_TIME)
+        Model::Cache.force_set("img-#{encode}", dst, EXPIRED_TIME)
       end
       filename
     end
