@@ -56,7 +56,7 @@ class FurueruApp < Sinatra::Base
   post '/download' do
     src = "public/#{params[:src]}"
     dst = "public/history/#{File.basename params[:src]}"
-    File.rename src, dst
+    File.cp src, dst
     content_type :gif
     send_file dst
   end
