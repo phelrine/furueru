@@ -5,6 +5,13 @@ module Model
   class Image
     EXPIRED_TIME = 300
     
+    def self.save_file(name, file)
+      dst = "public/#{name}"
+      File.open(dst, "wb"){|f|
+        f.write file.read
+      }
+    end
+
     def self.get_image(url, dst)
       File.open(dst, "wb"){|f|
         f.write open(url).read            
@@ -25,21 +32,12 @@ module Model
       Model.logger.info("create image #{dst}")
     end      
 
-    def self.vibrate(path, prefix, width, delay)
+    def self.vibrate(path, width, delay)
       ext = File.extname(path)
       base = File.basename(path, ext)
-      filename = "tmp/#{prefix}-#{base}-w#{width}-d#{delay}.gif"
-      dst = "public/#{filename}"
-      src = "public/tmp/#{prefix}-#{File.basename path}"
-    
-      if File.exist? dst
-        Model::Cache.get_or_set("get-image-#{dst}", EXPIRED_TIME){
-          self.get_image(path, src) 
-        }
-      else
-        self.get_image(path, src) 
-        Model::Cache.force_set("get-image-#{dst}", dst, EXPIRED_TIME)
-      end
+      p filename = "/tmp/#{base}-w#{width}-d#{delay}.gif"
+      p src = "public/#{path}"
+      p dst = "public/#{filename}"
       
       if File.exist? dst
         Model::Cache.get_or_set("img-#{dst}", EXPIRED_TIME){

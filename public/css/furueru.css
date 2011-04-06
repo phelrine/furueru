@@ -1,122 +1,132 @@
-body {
-    background: #888888;
-}
+body { background: #888888; }
 
-a {
-    color: gray;
-    text-decoration: none;
-}
+a 
+{ 
+  color: gray;
+  text-decoration: none;
+  }
 
-a:hover {
-    text-decoration: underline;
-}
+a:hover 
+{
+  text-decoration: underline;
+  }
 
-table {
-    margin: auto;
-}
+table { margin: auto; }
 
-div#container_all {
-    margin: auto;
-    width: 800px;
-    margin: auto;
-    padding: 1em;
-}
+div#container-all 
+{
+  width: 900px;
+  margin: auto;
+  padding: 1em;
+  }
 
-div#adsense {
-    background: white;
-    margin-bottom: 1em;
-    padding: 0.5em;
-    text-align: center;
-    border-radius: 1em;
-}
+div#adsense 
+{
+  background: white;
+  margin-bottom: 1em;
+  padding: 0.5em;
+  text-align: center;
+  border-radius: 1em;
+  }
 
-div#header, div#garally, div.left, div.right {
-    background: white;
-    padding: 1em;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 1em;
-    border-radius: 1em;
-    text-align: center;
-}
+div#header, div#garally, div#left, div#right
+{
+  background: white;
+  padding: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1em;
+  border-radius: 1em;
+  }
 
-div#header, div#garally {
-    text-align: left;
-}
+div#intro, div#step1, div#step2 { text-align: center; }
+div#header, div#garally { text-align: left; }
 
-div.left {
-    float: left;
-    width: 60%;
-}
+div#left, div#right { height: 300px; }
+div#left 
+{
+  float: left;
+  width: 40%;
+  }
 
-div.right {
-    float: right;
-    width: 30%;
-}
+div#right 
+{
+  float: right;
+  width: 50%;
+  }
 
-#main div.left, #main div.right {
-    height: 300px;
-}
+#title-logo 
+{
+  margin-left: 1em;
+  float: left;
+  }
 
-#title-logo {
-    margin-left: 1em;
-    float: left;
-}
+#title-logo h1, #title-logo description 
+{
+  margin-top: 0em;
+  color: black;
+  text-shadow: gray 10px 8px 4px;
+  }
 
-#title-logo h1, #title-logo description {
-    margin-top: 0em;
-    color: black;
-    text-shadow: gray 10px 8px 4px;
-}
+#login-menu 
+{
+  font-size: small;
+  text-align: right;
+  padding: 0.5em;
+  margin-top: 0px;
+  float: right;
+  border-radius: 1em;
+  }
 
-#login-menu {
-    font-size: small;
-    text-align: right;
-    padding: 0.5em;
-    margin-top: 0px;
-    float: right;
-    border-radius: 1em;
-}
+#main img.icon 
+{
+  border-radius: 16px;
+  width: 128px;
+  }
 
-#main img.icon {
-    border-radius: 16px;
-    width: 128px;
-}
+#main p.help 
+{
+  text-align: left;
+  }
 
-#main p.help {
-    text-align: left;
-}
+#garally h2, #garally p 
+{
+  margin-top: 0em;
+  margin-bottom: 0.5em
+  }
 
-#garally h2, #garally p {
-    margin-top: 0em;
-    margin-bottom: 0.5em
-}
+#garally a 
+{
+  color: white;
+  }
 
-#garally a {
-    color: white;
-}
+#garally img 
+{
+  border-radius: 0.5em;
+  width: 64px;
+  height: 64px;
+  }
 
-#garally img {
-    border-radius: 0.5em;
-    width: 64px;
-    height: 64px;
-}
+.hide 
+{
+  display: none;
+  }
 
-.result {
-    display: none;
-}
+.result { display: none; }
+p.result, form.result 
+{
+  margin: 20px;
+  }
 
-p.result, form.result {
-    margin: 20px;
-}
+.clear 
+{
+  clear: both;
+  }
 
-.clear {
-    clear: both;
-}
-
-p#footer {
-    background: white;
-    text-align: center;
-    font-size: small;
-    border-radius: 1em;
-}
+p#footer 
+{
+  background: white;
+  text-align: center;
+  font-size: small;
+  border-radius: 1em;
+  }
