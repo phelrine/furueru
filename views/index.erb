@@ -1,6 +1,6 @@
 <div id="left">
   <div id="intro">
-    <p>Furueruはふるえるアイコンを作成するサービスです.</p>
+    <p class="help">Furueruはふるえるアイコンを作成するサービスです.</p>
   </div>
   <div id="step1">
     <p>ふるえさせたい画像をアップロードしてください.</p>
@@ -13,7 +13,6 @@
 <div id="right">
   <div id="garally">
     <h2>ギャラリー</h2>
-    <p>現在 <strong><%=h Model::History.unique_user.length %></strong> 人のユーザーがふるえています</p>
     <% Dir.glob("public/history/*.{gif}").shuffle[0, 18].each do |hist| %>
     <img src="<%=h hist.gsub(/^public/, "")%>" />
     <% end %>

@@ -5,21 +5,17 @@ module Model
   class Image
     EXPIRED_TIME = 300
     
-    def self.save_file(name, file)
-      dst = "public/#{name}"
-      File.open(dst, "wb"){|f|
-        f.write file.read
+    def self.save_file(file, name)
+      Model::Cache.get_or_set("upload-file-#{name}", 300){
+        filename = "tmp/#{Time.now.to_i}-#{name}" 
+        dst = "public/#{filename}"
+        open(dst, "wb"){|f| 
+          f.write file.read
+        }
+        filename
       }
     end
 
-    def self.get_image(url, dst)
-      File.open(dst, "wb"){|f|
-        f.write open(url).read            
-      }
-      Model.logger.info("get image #{url}")
-      dst
-    end
-    
     def self.create_vibrate_image(width, delay, src, dst)
       gif = Magick::ImageList.new
       img = Magick::Image.read(src).first.resize(48, 48)

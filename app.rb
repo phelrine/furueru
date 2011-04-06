@@ -30,19 +30,13 @@ class FurueruApp < Sinatra::Base
 
   post '/' do
     raise if request.content_length.to_i > 1024 * 10
-    unless params.empty?
-      file = params[:upfile]
-      filename = "tmp/" + Time.now.strftime("%s") +
-        File.basename(file[:filename])
-      dst = "public/#{filename}"
-      open(dst, "wb"){|f| 
-        f.write file[:tempfile].read
-      }
-      JSON.unparse({
-          :filename => filename, 
-          :type => file[:type]
-        })
-    end
+    raise if params.empty?
+    file = params[:upfile]
+    dst = Model::Image.save_file(file[:tempfile], File.basename(file[:filename]))
+    JSON.unparse({
+        :filename => dst,
+        :type => file[:type]
+      })
   end
   
   post '/furueru' do
@@ -50,14 +44,13 @@ class FurueruApp < Sinatra::Base
     data[:image] = Model::Image.vibrate(
       params[:src],
       params[:width].to_i, 
-      params[:delay].to_i,
+      params[:delay].to_i
       )
     content_type :json
     JSON.unparse(data)
   end
   
   post '/get_icon' do
-    p "test"
     src = "public/#{params[:src]}"
     dst = "public/history/#{File.basename params[:src]}"
     File.rename src, dst

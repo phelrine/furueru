@@ -13,7 +13,7 @@ window.furueru.dispatcher = function(guard, func) {
         if (
             guard == true
                 || (typeof guard == "string" && location.pathname == guard)
-	    || (guard.test && guard.test(location.pathname))
+		|| (guard.test && guard.test(location.pathname))
         ) func();
     });
 };
@@ -33,20 +33,20 @@ window.furueru.index = {
 	var self = this;
 	self.hideResult();
 	$.post('furueru', 
-{ 'src': $('#preview-image').attr("src"),
-	'width': width, 
-	'delay': delay, 
-	},
+	       { 'src': $('#preview-image').attr("src"),
+		 'width': width, 
+		 'delay': delay, 
+	       },
 	       function(data){
 		   $('img.result').attr('src', data.image);
 		   $('#result-file').val(data.image);
 		   self.showResult();
-	    });
+	       });
     },
 };
 
 window.furueru.dispatcher('/', function(){
-	$('input[type=radio]').attr('checked', false);
+    $('input[type=radio]').attr('checked', false);
     $('#purupuru').click(function(){
 	window.furueru.index.vibrateImage(1, 4);
     });
@@ -57,21 +57,23 @@ window.furueru.dispatcher('/', function(){
 	window.furueru.index.vibrateImage(4, 4);
     });
     $('#download').click(function(){
-	    window.furueru.index.downloadImage();
-	});
-    $('#upload-form').ajaxForm({
-	    success: function(data, res){
-		$('#garally').hide();
-		$('#step2').fadeIn('slow');
-		$("#preview-image")
-		    .attr('src', data.filename)
-		    .fadeIn('slow');
-		return false;
-	    },
-		dataType: "json"
-		});
+	window.furueru.index.downloadImage();
     });
+    $('#upload-form').ajaxForm({
+	success: function(data, res){
+	    console.log(data);
+	    console.log(data.filename);
+	    $('#garally').hide();
+	    $('#step2').fadeIn('slow');
+	    $("#preview-image")
+		.attr('src', data['filename'])
+		.fadeIn('slow');
+	    return false;
+	},
+	dataType: "json"
+    });
+});
 
 $(function() {
-	window.furueru.dispatcher();
+    window.furueru.dispatcher();
 });
