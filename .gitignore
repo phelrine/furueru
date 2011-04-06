@@ -1,5 +1,7 @@
 *~
 *gif
 *png
-*jpeg
+*jpg
 vendor/
+.bundle/
+Gemfile.lock
