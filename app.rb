@@ -9,7 +9,6 @@ class FurueruApp < Sinatra::Base
   set :root, File.dirname(__FILE__)
   set :show_exceptions, false
   set :logging, true
-  use Rack::Session::Cookie, :secret => "change_me_string"
   
   helpers do
     alias_method :h, :escape_html
