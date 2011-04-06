@@ -3,76 +3,26 @@
     <link rel="stylesheet" href="css/furueru.css" type="text/css" />
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
     <script src="http://widgets.twimg.com/j/2/widget.js"></script>
+    <script type="text/javascript" src="js/jquery.form.js"></script>
     <script type="text/javascript" src="js/furueru.js"></script>
     <title>Tateyure</title>
   </head>
   <body>
-    <div id="container_all">
+    <div id="container-all">
       <div id="header">
 	<div id="title-logo">
 	  <a href="."><h1>Tateyure</h1></a>
 	  <description id="subtitle">~~ たてゆれ ~~</description>
 	</div>
-	<% if current_user %>
-	<p id="login-menu"><%= h current_user.screen_name%> でログイン中<br><a href="./logout">ログアウト</a></p>
-	<% end %>
 	<div class="clear"></div>
       </div>
       <div id="main">
-	<div class="left">
-	  <%= yield %>
-	</div>
-	<div class="right">
-	  <script>
-	    new TWTR.Widget({
-	    version: 2,
-	    type: 'search',
-	    search: '#tateyure',
-	    interval: 6000,
-	    title: '#tateyure',
-	    subject: 'たてゆれ',
-	    width: 240,
-	    height: 200,
-	    theme: {
-	    shell: {
-	    background: '#8ec1da',
-	    color: '#ffffff'
-	    },
-	    tweets: {
-	    background: '#ffffff',
-	    color: '#444444',
-	    links: '#1985b5'
-	    }
-	    },
-	    features: {
-	    scrollbar: false,
-	    loop: true,
-	    live: true,
-	    hashtags: true,
-	    timestamp: true,
-	    avatars: true,
-	    toptweets: true,
-	    behavior: 'default'
-	    }
-	    }).render().start();
-	  </script>
-	</div>
+	<%= yield %>
 	<div class="clear"></div>
       </div>
-      <div id=adsense>
+      <div id="adsense">
       </div>
-      <div id="garally">
-	<h2>ギャラリー</h2>
-	<p>現在 <strong><%=h Model::History.unique_user.length %></strong> 人のユーザーがふるえています</p>
-	<% Model::History.recent_user(11).each do |hist| %>
-	<a href="http://twitter.com/#!/<%=h hist.screen_name %>">
-	  <img src="<%=h hist.icon_image %>" 
-	       alt="<%=h hist.screen_name %>" 
-	       title="<%=h hist.screen_name %>"/>
-	</a>
-	<% end %>
-      </div>
-      <p id="footer">Tateyure ~~ たてゆれ ~~ (<a href="http://twitter.com/#!/phelrine">@phelrine</a>)</p>
+      <p id="footer">Tateyure ~~ たてゆれ ~~ (<a href="http://blog.phelrine.com/">phelrine</a>)</p>
     </div>
   </body>
 </html>

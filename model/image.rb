@@ -5,14 +5,19 @@ module Model
   class Image
     EXPIRED_TIME = 300
     
-    def self.get_image(url, dst)
-      File.open(dst, "wb"){|f|
-        f.write open(url).read            
+    def self.save_file(file, name)
+      encode = name.crypt("change-me")
+      Model::Cache.get_or_set("upload-file-#{encode}", 300){
+        Model.logger.info "upload file: #{name}"
+        filename = "tmp/#{Time.now.to_i}-#{name}" 
+        dst = "public/#{filename}"
+        open(dst, "wb"){|f| 
+          f.write file.read
+        }
+        filename
       }
-      Model.logger.info("get image #{url}")
-      dst
     end
-    
+
     def self.create_vibrate_image(width, delay, src, dst)
       gif = Magick::ImageList.new
       img = Magick::Image.read(src).first.resize(48, 48)
@@ -25,29 +30,21 @@ module Model
       Model.logger.info("create image #{dst}")
     end      
 
-    def self.vibrate(path, prefix, width, delay)
+    def self.vibrate(path, width, delay)
       ext = File.extname(path)
       base = File.basename(path, ext)
-      filename = "tmp/#{prefix}-#{base}-w#{width}-d#{delay}.gif"
+      filename = "/tmp/#{base}-w#{width}-d#{delay}.gif"
+      src = "public/#{path}"
       dst = "public/#{filename}"
-      src = "public/tmp/#{prefix}-#{File.basename path}"
-    
-      if File.exist? dst
-        Model::Cache.get_or_set("get-image-#{dst}-tateyure", EXPIRED_TIME){
-          self.get_image(path, src) 
-        }
-      else
-        self.get_image(path, src) 
-        Model::Cache.force_set("get-image-#{dst}-tateyure", dst, EXPIRED_TIME)
-      end
+      encode = path.crypt("change-me")
       
       if File.exist? dst
-        Model::Cache.get_or_set("img-#{dst}-tateyure", EXPIRED_TIME){
+        Model::Cache.get_or_set("img-#{encode}-tateyure", EXPIRED_TIME){
           self.create_vibrate_image(width, delay, src, dst)
         }
       else
         self.create_vibrate_image(width, delay, src, dst)
-        Model::Cache.force_set("img-#{dst}-tateyure", dst, EXPIRED_TIME)
+        Model::Cache.force_set("img-#{encode}-tateyure", dst, EXPIRED_TIME)
       end
       filename
     end

@@ -1,25 +1,40 @@
-<% unless current_user %>
-<p class="help">TateyureはTwitterのアイコンをふるえさせることができるサービスです.</p>
-<p class="help">サービスを利用するためにはoAuth認証が必要です.<br />下のリンクから認証してください.</p>
-<p><a href="./oauth">ログイン</a>してふるえる</p>
-<% else %>
-<p>ふるえかたを選んでください.</p>
-<form>
-  ぷるぷる<input type="radio" id="purupuru" name="type" checked="false" />
-  ゆらゆら<input type="radio" id="yurayura" name="type" checked="false" />
-  ぐらぐら<input type="radio" id="guragura" name="type" checked="false" />
-  <input type="hidden" id="image-token" name="token" value="<%= current_user.token %>" />
-</form>
-<table>
-  <tr>
-    <td><img class="icon" src="<%= h current_user.profile_image_url %>"/></td> 
-    <td><p class="result">→</p></td>
-    <td><img class="result icon"></td>
-  </tr>
-</table>
-<form method="post" action="update" class="result">
-  <input type="hidden" id="update-token" name="token" value="<%= current_user.token %>" />
-  <input type="hidden" id="update-image-path" name="path" value="" />
-  <input type="submit" id="update-image" value="ふるえるアイコンに変更する" />
-</form>
-<% end %>
+<div id="left">
+  <div id="intro">
+    <p class="help">Tateyureはふるえるアイコンを作成するサービスです.</p>
+    <p>お気に入りのアイコンをふるわせてみませんか?</p>
+  </div>
+  <br />
+  <div id="step1">
+    <p>ふるえさせたい画像をアップロードしてください.</p>
+    <form id="upload-form" action="/" method="post" enctype="multipart/form-data">
+      <input type="file" name="upfile" id="upload-image" /><br />
+      <input type="submit" value="アップロード" /> 
+    </form>
+    <p class="caution">png・jpg・gifの画像をアップロードすることができます.<br />最大30KBのファイルをアップロードできます.</p>
+  </div>
+</div>
+<div id="right">
+  <div id="garally">
+    <h2>ギャラリー</h2>
+    <% Dir.glob("public/history/*.{gif}").shuffle[0, 18].each do |hist| %>
+    <img src="<%=h hist.gsub(/^public/, "")%>" />
+    <% end %>
+  </div>
+  <div id="step2" class="hide">
+    <table>
+      <tr>
+	<td><img class="icon" id="preview-image" /></td>
+	<td class="result">→</td>
+	<td><img class="icon result" /></td>
+      </tr>
+    </table>
+    <p>ふるえかたを選んでください.</p>
+    <form>
+      ぷるぷる<input type="radio" id="purupuru" name="type" checked="false" />
+      ゆらゆら<input type="radio" id="yurayura" name="type" checked="false" />
+      ぐらぐら<input type="radio" id="guragura" name="type" checked="false" />
+    </form>
+    <a id="download" target="_blank">ふるえるアイコンをダウンロードする</a>
+  </div>
+</div>
+

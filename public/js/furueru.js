@@ -13,47 +13,77 @@ window.furueru.dispatcher = function(guard, func) {
         if (
             guard == true
                 || (typeof guard == "string" && location.pathname == guard)
-                || (guard.test && guard.test(location.pathname))
+		|| (guard.test && guard.test(location.pathname))
         ) func();
     });
 };
 
 window.furueru.index = {
     hideResult: function(){
-	$('img.result').hide('slow');
-	$('#update-image').attr('disabled', true);
+	$('#download').hide();
+	$('.result').hide('slow');
 	$('input[type=radio]').attr('disabled', true);
     },
     showResult: function(){
-	$('img.result').show('slow');
-	$('p.result').show('slow');
-	$('form.result').fadeIn('slow');
-	$('#update-image').attr('disabled', false);
+	$('.result').show('slow');
+	$('#download').fadeIn('slow');
 	$('input[type=radio]').attr('disabled', false);
     },
-    getImage: function(width, delay){
+    vibrateImage: function(width, delay){
 	var self = this;
 	self.hideResult();
 	$.post('furueru', 
-	       {'width': width, 'delay': delay, 'token': $('#image-token').val()},
+	       { 'src': $('#preview-image').attr("src"),
+		 'width': width, 
+		 'delay': delay, 
+	       },
 	       function(data){
 		   $('img.result').attr('src', data.image);
-		   $('#update-image-path').val($('img.result').attr('src'));
+		   $('a#download').attr('href', data.image);
+		   $('#result-file').val(data.image);
 		   self.showResult();
 	       });
+    },
+    downloadImage: function(){
+	$.post('download', {'src': $('img.result').attr("src")});
     }
 };
 
 window.furueru.dispatcher('/', function(){
     $('input[type=radio]').attr('checked', false);
     $('#purupuru').click(function(){
-	window.furueru.index.getImage(1, 4);
+	window.furueru.index.vibrateImage(1, 4);
     });
     $('#yurayura').click(function(){
-	window.furueru.index.getImage(2, 6);
+	window.furueru.index.vibrateImage(2, 6);
     });
     $('#guragura').click(function(){
-	window.furueru.index.getImage(4, 4);
+	window.furueru.index.vibrateImage(4, 4);
+    });
+    $('#download').click(function(){
+	window.furueru.index.downloadImage();
+    });
+    $('#upload-form').ajaxForm({
+	beforeSubmit: function(formData, jqForm, options){
+	    var form = $('input[type=file]').get(0);
+	    if(!form.files[0]){
+		alert('ファイルが指定されていません.');
+		return false;
+	    }else if(form.files[0].fileSize > 1024 * 30){
+		alert('ファイルのサイズが大きすぎます.');
+		return false;
+	    }
+	    return true;
+	},
+	success: function(res, status){
+	    $('#garally').hide();
+	    $('#step2').fadeIn('slow');
+	    $("#preview-image")
+		.attr('src', res.filename)
+		.fadeIn('slow');
+	    return false;
+	},
+	dataType: "json"
     });
 });
 
