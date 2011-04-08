@@ -71,12 +71,18 @@ module Model
       self.profile[:profile_image_url]
     end
 
-    def vibrate(width, delay)
-      Model::Image.vibrate(
-        self.profile_image_url, 
-        self.user_id,
-        width, 
-        delay)
+    def freeze(mode)
+      Model::Image.freeze(
+                          self.profile_image_url,
+                          self.user_id,
+                          mode)
+    end
+    
+    def img_path
+      tmp_img = self.profile_image_url
+      ext = File.extname tmp_img
+      base = File.basename tmp_img,ext
+      "tmp/#{self.user_id}-#{base}"
     end
 
     def mime_type(file)

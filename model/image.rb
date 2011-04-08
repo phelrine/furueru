@@ -13,22 +13,23 @@ module Model
       dst
     end
     
-    def self.create_vibrate_image(width, delay, src, dst)
-      gif = Magick::ImageList.new
-      img = Magick::Image.read(src).first.resize(48, 48)
-      gif << img
-      gif << img.roll(width, 0)
-      gif.iterations = 0
-      gif.delay = delay
-      gif = gif.deconstruct.coalesce
-      gif.write dst
+    def self.create_freeze_image(src, dst, compressed)
+      img = Magick::Image.read(src).first
+      res = img
+      if compressed
+        img = img.resize(40,40)
+        res = img.border(4, 4, "rgb(0,0,0)").quantize(256, Magick::GRAYColorspace)
+      else
+        res = img.resize(48,48)
+      end 
+      res.write dst
       Model.logger.info("create image #{dst}")
-    end      
-
-    def self.vibrate(path, prefix, width, delay)
+    end
+      
+    def self.freeze(path, prefix,compressed)
       ext = File.extname(path)
       base = File.basename(path, ext)
-      filename = "tmp/#{prefix}-#{base}-w#{width}-d#{delay}.gif"
+      filename = "tmp/#{prefix}-#{base}-c#{compressed}.gif"
       dst = "public/#{filename}"
       src = "public/tmp/#{prefix}-#{File.basename path}"
     
@@ -43,10 +44,10 @@ module Model
       
       if File.exist? dst
         Model::Cache.get_or_set("img-#{dst}", EXPIRED_TIME){
-          self.create_vibrate_image(width, delay, src, dst)
+          self.create_freeze_image(src, dst, compressed)
         }
       else
-        self.create_vibrate_image(width, delay, src, dst)
+        self.create_freeze_image(src, dst, compressed)
         Model::Cache.force_set("img-#{dst}", dst, EXPIRED_TIME)
       end
       filename

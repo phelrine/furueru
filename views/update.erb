@@ -1,11 +1,8 @@
 <p>アイコンをアップロードしました.</p>
 <p>
   <a href=<%= h("http://twitter.com/home?status=" + 
-	      uri_encode("かたまる! #katamaru"))
+	      uri_encode("かたまる! #katamaru http://goo.gl/O0tmc"))
 	      %> 
      >つぶやく</a>
 </p>
-<a href="http://twitter.com/#!/<%= current_user.screen_name %>">
-  <img src="<%= h current_user.profile_image_url %>" class="icon" />
-</a>
 <p><a href=".">モドル</a></p>

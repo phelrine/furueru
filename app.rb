@@ -66,31 +66,25 @@ class FurueruApp < Sinatra::Base
         :access_token => access_token.params[:oauth_token],
         :access_secret => access_token.params[:oauth_token_secret],
       })
-
     session[:user_id] = user.user_id
+    [true, false].each{|f|
+      current_user.freeze(f)
+    }
     redirect "/"
   end
 
-  post '/furueru' do
+  post '/katamaru' do
     require_user
     require_token
-    data = {}
-    data[:image] = current_user.vibrate(params[:width].to_i, params[:delay].to_i)
-    content_type :json
-    JSON.unparse(data)
+    flag = params[:select]
+    file_name = "#{current_user.img_path}-c#{flag}.gif"
+    current_user.update_profile_image file_name
+    session.delete(:user_id)
+    redirect "/updated"
   end
   
   get '/updated' do
-    require_user
     erb :update
-  end
-
-  post '/update' do
-    require_user
-    require_token
-    return "error" unless defined? params[:path] 
-    current_user.update_profile_image params[:path]
-    redirect "/updated"
   end
 
   get '/logout' do

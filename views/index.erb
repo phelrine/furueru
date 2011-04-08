@@ -4,19 +4,19 @@
 <p><a href="./oauth">ログイン</a>してとめる</p>
 <% else %>
 <p>とめかたを選んでください.</p>
-<form>
-  <input type="hidden" id="image-token" name="token" value="<%= current_user.token %>" />
-</form>
-<table>
-  <tr>
-    <td><img class="icon" src="<%= h current_user.profile_image_url %>"/></td> 
-    <td><p class="result">→</p></td>
-    <td><img class="result icon"></td>
-  </tr>
-</table>
-<form method="post" action="update" class="result">
-  <input type="hidden" id="update-token" name="token" value="<%= current_user.token %>" />
-  <input type="hidden" id="update-image-path" name="path" value="" />
-  <input type="submit" id="update-image" value="動かないアイコンに変更する" />
+<form method="post" action="katamaru">
+<input type="hidden" id="update-token" name="token" value="<%= current_user.token %>" />
+  <table>
+    <tr>
+      <td><img class="icon" src="<%= current_user.img_path+"-ctrue.gif"%>"></td>
+      <td><img class="icon" src="<%= current_user.img_path+"-cfalse.gif"%>"></td>
+    </tr>
+    <tr>
+      <td>  <input type="radio" value="true" name="select"></td>
+      <td>  <input type="radio" value="false" name="select"></td>
+    </tr>
+  </table>
+  <br />
+  <input type="submit" value="決定">
 </form>
 <% end %>
