@@ -1,13 +1,10 @@
 <% unless current_user %>
-<p class="help">FurueruはTwitterのアイコンをふるえさせることができるサービスです.</p>
-<p class="help">サービスを利用するためにはoAuth認証が必要です.<br />下のリンクから認証してください.</p>
-<p><a href="./oauth">ログイン</a>してふるえる</p>
+<p class="help">KatamaruはTwitterのアニメーションアイコン止めることができるサービスです.</p>
+<p class="help">サービスを利用するためにはoAuth認証が必要です.<br />下のリンクから認証してください.</p>
+<p><a href="./oauth">ログイン</a>してとめる</p>
 <% else %>
-<p>ふるえかたを選んでください.</p>
+<p>とめかたを選んでください.</p>
 <form>
-  ぷるぷる<input type="radio" id="purupuru" name="type" checked="false" />
-  ゆらゆら<input type="radio" id="yurayura" name="type" checked="false" />
-  ぐらぐら<input type="radio" id="guragura" name="type" checked="false" />
   <input type="hidden" id="image-token" name="token" value="<%= current_user.token %>" />
 </form>
 <table>
@@ -20,6 +17,6 @@
 <form method="post" action="update" class="result">
   <input type="hidden" id="update-token" name="token" value="<%= current_user.token %>" />
   <input type="hidden" id="update-image-path" name="path" value="" />
-  <input type="submit" id="update-image" value="ふるえるアイコンに変更する" />
+  <input type="submit" id="update-image" value="動かないアイコンに変更する" />
 </form>
 <% end %>
