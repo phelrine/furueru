@@ -7,7 +7,7 @@ module Model
     
     def self.save_file(file, name)
       encode = name.crypt("change-me")
-      Model::Cache.get_or_set("upload-file-#{encode}", 300){
+      Model::Cache.get_or_set("upload-file-#{encode}", EXPIRED_TIME){
         Model.logger.info "upload file: #{name}"
         filename = "tmp/#{Time.now.to_i}-#{name}" 
         dst = "public/#{filename}"
@@ -28,6 +28,7 @@ module Model
       gif = gif.deconstruct.coalesce
       gif.write dst
       Model.logger.info("create image #{dst}")
+      dst
     end      
 
     def self.vibrate(path, width, delay)

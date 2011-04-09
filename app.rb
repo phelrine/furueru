@@ -29,9 +29,13 @@ class FurueruApp < Sinatra::Base
   end
 
   post '/' do
-    Model.logger.info "file size: #{request.content_length}"
-    halt 500, "Capacity Over" if request.content_length.to_i > 1024 * 30
-    halt 500, "File is Empty" if params.empty? || params[:upfile].empty?
+    if request.content_length.to_i > 1024 * 30
+      Model.logger.warn "file size: #{request.content_length}"
+      halt 500, "Capacity Over" 
+    end
+    if params.empty? || params[:upfile].empty?
+      halt 500, "File is Empty" 
+    end
     file = params[:upfile]
     type = file[:type]
     Model.logger.info "file type: #{type}"
