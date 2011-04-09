@@ -8,12 +8,20 @@
 <input type="hidden" id="update-token" name="token" value="<%= current_user.token %>" />
   <table>
     <tr>
-      <td><img class="icon" src="<%= current_user.img_path+"-ctrue.gif"%>"></td>
-      <td><img class="icon" src="<%= current_user.img_path+"-cfalse.gif"%>"></td>
+      <td>
+	<label for="image1">
+	  <img class="icon" src="<%= current_user.img_path+"-ctrue.gif"%>">
+	</label>
+      </td>
+      <td>
+	<label for="image2">
+	  <img class="icon" src="<%= current_user.img_path+"-cfalse.gif"%>">
+	</label>
+      </td>
     </tr>
     <tr>
-      <td>  <input type="radio" value="true" name="select"></td>
-      <td>  <input type="radio" value="false" name="select"></td>
+      <td><input type="radio" value="true" name="select" id="image1"></td>
+      <td><input type="radio" value="false" name="select" id="image2"></td>
     </tr>
   </table>
   <br />
