@@ -1,9 +1,9 @@
 <% unless current_user %>
-<p class="help">KatamaruはTwitterのアニメーションアイコン止めることができるサービスです.</p>
-<p class="help">サービスを利用するためにはoAuth認証が必要です.<br />下のリンクから認証してください.</p>
-<p><a href="./oauth">ログイン</a>してとめる</p>
+<p class="help">KatamaruはTwitterのアニメーションアイコン止めることができるサービスです.</p>
+<p class="help">サービスを利用するためにはoAuth認証が必要です.<br />下のリンクから認証してください.</p>
+<p><a href="./oauth">ログイン</a>してとめる</p>
 <% else %>
-<p>とめかたを選んでください.</p>
+<p>とめかたを選んでください.</p>
 <form method="post" action="katamaru">
 <input type="hidden" id="update-token" name="token" value="<%= current_user.token %>" />
   <table>

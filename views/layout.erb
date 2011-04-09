@@ -14,7 +14,7 @@
 	  <description id="subtitle">【 かたまる 】</description>
 	</div>
 	<% if current_user %>
-	<p id="login-menu"><%= h current_user.screen_name%> でログイン中<br><a href="./logout">ログアウト</a></p>
+	<p id="login-menu"><%= h current_user.screen_name%> でログイン中<br><a href="./logout">ログアウト</a></p>
 	<% end %>
 	<div class="clear"></div>
       </div>
@@ -62,8 +62,8 @@
       <div id=adsense>
       </div>
       <div id="garally">
-	<h2>ギャラリー</h2>
-	<p>現在 <strong><%=h Model::History.unique_user.length %></strong> 人のユーザーがかたまっています</p>
+	<h2>ギャラリー</h2>
+	<p>現在 <strong><%=h Model::History.unique_user.length %></strong> 人のユーザーがかたまっています</p>
 	<% Model::History.recent_user(11).each do |hist| %>
 	<a href="http://twitter.com/#!/<%=h hist.screen_name %>">
 	  <img src="<%=h hist.icon_image %>" 
